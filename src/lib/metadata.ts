@@ -10,9 +10,9 @@ const twitterSite = TWITTER_SITE
   : undefined;
 
 export function constructMetadata({
-  title = "StrathMallBuzz - Your Campus Social Hub",
-  description = "StrathMallBuzz connects university students with campus life through events, study groups, forums, and more. Explore resources, collaborate, and engage with your campus community.",
-  image = "/buzz-thumbnail.png",
+  title = "StrathMallPulse - Your Campus Social Hub",
+  description = "StrathMallPulse connects university students with campus life through events, study groups, forums, and more. Explore resources, collaborate, and engage with your campus community.",
+  image = "/thumbnail.png",
   icons = "/favicon.ico",
   noIndex = false,
 }: {
