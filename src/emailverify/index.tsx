@@ -17,7 +17,7 @@ export async function sendVerificationEmail(
 
     const baseUrl =
       process.env.NODE_ENV === "production"
-        ? "https://strathmall.com"
+        ? "https://strathmall.com/pulse"
         : "http://localhost:3000";
         
   const verificationToken = crypto.randomUUID();

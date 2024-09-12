@@ -8,7 +8,7 @@ import { user } from "@/types/sellerindex";
 export async function sendResetPasswordEmail(user: user, resetToken: string) {
   const baseUrl =
     process.env.NODE_ENV === "production"
-      ? "https://strathmall.com"
+      ? "https://strathmall.com/pulse"
       : "http://localhost:3000";
 
   const resetLink = `${baseUrl}/reset-password/${resetToken}`;
