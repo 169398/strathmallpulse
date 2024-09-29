@@ -5,6 +5,7 @@ import { isRedirectError } from "next/dist/client/components/redirect";
 import { auth, signIn, signOut } from "@/auth";
 import {
   
+  onboardingSchema,
   signInFormSchema,
   signUpFormSchema,
   updateUserSchema,
@@ -51,6 +52,13 @@ export async function signUp(prevState: unknown, formData: FormData) {
       emailVerified: null,
       image: null,
       createdAt: null,
+      gender: null,
+      dateOfBirth: null,
+      course: null,
+      year: null,
+      relationshipStatus: null,
+      university: null,
+      interests: null
     });
 
     return {
@@ -269,6 +277,74 @@ export async function updateProfile(user: { name: string; email: string }) {
     return {
       success: true,
       message: "User updated successfully",
+    };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
+}
+
+export async function submitOnboarding(formData: FormData) {
+  try {
+    // Parse and validate form data using the schema
+    const onboardingData = onboardingSchema.parse({
+      name: formData.get("name"),
+      gender: formData.get("gender"),
+      dateOfBirth: formData.get("dateOfBirth"),
+      course: formData.get("course"),
+      year: formData.get("year"),
+      relationshipStatus: formData.get("relationshipStatus"),
+      university: formData.get("university"),
+      interests: formData.getAll("interests"),
+    });
+
+    const session = await auth(); // Fetch the current authenticated user
+    if (!session?.user?.id) throw new Error("User is not authenticated");
+
+    const hashedPassword = hashSync(formData.get("password") as string, 10);
+
+    // Update the user in the database with the onboarding data
+    await db
+      .update(users)
+      .set({
+        name: onboardingData.name,
+        gender: onboardingData.gender,
+        dateOfBirth: new Date(onboardingData.dateOfBirth),
+        course: onboardingData.course,
+        year: onboardingData.year,
+        relationshipStatus: onboardingData.relationshipStatus,
+        university: onboardingData.university,
+        interests: onboardingData.interests, 
+      })
+      .where(eq(users.id, session.user.id));
+
+    revalidatePath("/"); 
+
+    return { success: true, message: "Onboarding completed successfully" };
+  } catch (error) {
+    return {
+      success: false,
+      message: formatError(error),
+    };
+  }
+}
+
+export async function getOnboardingData(userId: string) {
+  try {
+    const user = await db.query.users.findFirst({
+      where: (users, { eq }) => eq(users.id, userId),
+    });
+    if (!user) throw new Error("User not found");
+
+    // Parse and return the user's onboarding data
+    return {
+      name: user.name,
+      gender: user.gender,
+      dateOfBirth: user.dateOfBirth,
+      course: user.course,
+      year: user.year,
+      relationshipStatus: user.relationshipStatus,
+      university: user.university,
+      interests: Array.isArray(user.interests) ? user.interests : (typeof user.interests === 'string' ? (user.interests as string).split(", ") : [])
     };
   } catch (error) {
     return { success: false, message: formatError(error) };

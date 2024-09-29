@@ -3,7 +3,7 @@ export const APP_DESCRIPTION =
   process.env.NEXT_PUBLIC_APP_DESCRIPTION ||
   'StrathMall - The marketplace for all university and local sellers'
 
-export const SENDER_EMAIL = process.env.SENDER_EMAIL || 'StrathMall <no-reply@strathmall.com>'
+export const SENDER_EMAIL = process.env.SENDER_EMAIL || 'StrathMall <info@strathmall.com>'
 
 export const PAGE_SIZE = Number(process.env.PAGE_SIZE) || 3
 

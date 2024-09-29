@@ -1,13 +1,12 @@
-
 import { relations } from "drizzle-orm";
 import {
   integer,
- 
   pgTable,
   text,
   timestamp,
   uniqueIndex,
   uuid,
+  jsonb,
 } from "drizzle-orm/pg-core";
 import { primaryKey } from "drizzle-orm/pg-core/primary-keys";
 import { AdapterAccount } from "next-auth/adapters";
@@ -24,6 +23,14 @@ export const users = pgTable(
     image: text("image"),
     role: text("role").notNull().default("user"),
 
+    // Onboarding fields
+    gender: text("gender"),
+    dateOfBirth: timestamp("dateOfBirth", { mode: "date" }),
+    course: text("course"),
+    year: text("year"),
+    relationshipStatus: text("relationshipStatus"),
+    university: text("university"),
+    interests: jsonb("interests").$type<string[]>(), 
     createdAt: timestamp("createdAt").defaultNow(),
     resetToken: text("resetToken"),
     resetTokenExpires: timestamp("resetTokenExpires"),
@@ -34,7 +41,6 @@ export const users = pgTable(
     };
   }
 );
-
 
 // ACCOUNTS
 export const accounts = pgTable(
@@ -82,4 +88,3 @@ export const verificationTokens = pgTable(
     compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
   })
 );
-

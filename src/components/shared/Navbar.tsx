@@ -8,17 +8,17 @@ export default async function Navbar() {
   const session = await auth();
 
   return (
-    <div className="fixed top-0 inset-x-0 h-fit bg-zinc-100 border-b border-zinc-300 z-[10] py-4">
-      <div className="container max-w-7xl h-full mx-auto flex items-center justify-between gap-2">
+    <div className="fixed top-0 inset-x-0 h-16 bg-gray-100 border-b border-gray-300 z-10">
+      <div className="container max-w-7xl h-full mx-auto flex items-center justify-between">
         <div className="flex items-center lg:ml-4">
           <Link href="/">
-            <h1 className="text-blue-600  text-3xl font-bold text-right  md:block">
-              StrathmallPulse
+            <h1 className="text-blue-600 text-3xl font-bold cursor-pointer md:block">
+              Strathmall
             </h1>
           </Link>
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:ml-8 lg:space-x-8 items-center">
-          <div className="flex-1 max-w-md">{/* <SearchBar /> */}</div>
+          {/* <div className="flex-1 max-w-md"><SearchBar /></div> */}
         </div>
         <div className="hidden lg:flex lg:items-center lg:space-x-6">
           <div className="flex items-center space-x-4">
@@ -37,7 +37,6 @@ export default async function Navbar() {
                 >
                   Log in
                 </Link>
-
                 <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
                 <Link
                   href="/sign-up"
